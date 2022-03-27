@@ -50,7 +50,7 @@ class CategoryRepository implements CategoryInterface
             $category->name = $request->name;
             $category->slug = Str::slug($request->name);
             $category->created_by = auth('api')->id();
-            $category->updated_by = $id  ? auth()->id() : NULL;
+            $category->updated_by = $id  ? auth('api')->id() : NULL;
             // Save the category
             $category->save();
 
