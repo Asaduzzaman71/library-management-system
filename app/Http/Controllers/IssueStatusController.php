@@ -20,6 +20,9 @@ class IssueStatusController extends Controller
     public function update(IssueStatusRequest $request, $id){
         return $this->issueStatusInterface->requestIssueStatus($request, $id);
     }
+    public function setReturnDate($id){
+        return $this->issueStatusInterface->updateReturnStatus($id);
+    }
 
     public function destroy($id)
     {

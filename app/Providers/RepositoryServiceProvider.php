@@ -25,6 +25,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Interfaces\MemberInterface',
             'App\Repositories\MemberRepository',
         );
+        $this->app->bind(
+            'App\Interfaces\IssueStatusInterface',
+            'App\Repositories\IssueStatusRepository',
+        );
     }
 
     /**

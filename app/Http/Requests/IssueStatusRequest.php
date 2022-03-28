@@ -27,7 +27,7 @@ class IssueStatusRequest extends FormRequest
             'book_id' => 'required',
             'member_id' => 'required',
             'issue_date' => 'required|date',
-            'return_date' => 'required|date|after_or_equal:issue_date',
+            'due_date' => 'required|date|after_or_equal:issue_date',
         ];
     }
     public function messages()

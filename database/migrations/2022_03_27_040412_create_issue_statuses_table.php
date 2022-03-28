@@ -18,7 +18,8 @@ class CreateIssueStatusesTable extends Migration
             $table->unsignedBigInteger('member_id');
             $table->unsignedBigInteger('book_id');
             $table->date('issue_date');
-            $table->date('return_date');
+            $table->date('due_date');
+            $table->date('return_date')->nullable();
             $table->unsignedInteger('created_by');
             $table->unsignedInteger('updated_by')->nullable();
             $table->timestamps();

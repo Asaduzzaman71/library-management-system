@@ -13,5 +13,9 @@ interface IssueStatusInterface
 
     public function requestIssueStatus(IssueStatusRequest $request, $id = null);
 
+    public function updateReturnStatus($id);
+
     public function deleteIssueStatus($id);
+
+
 }

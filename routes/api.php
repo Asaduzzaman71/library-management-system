@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\IssueStatusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +45,8 @@ Route::group( ['middleware' => 'api'], function()
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
     Route::post('/books', [BookController::class, 'store']);
     Route::post('/members', [MemberController::class, 'store']);
+    Route::post('/issues', [IssueStatusController::class, 'store']);
+    Route::get('/update-return-status/{issue}', [IssueStatusController::class, 'setReturnDate']);
 
 
 });
