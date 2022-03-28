@@ -26,9 +26,6 @@ class IssueStatusRequest extends FormRequest
         return [
             'book_id' => 'required',
             'member_id' => 'required',
-            'ISBN' => request()->route('book')
-                ? 'required|max:255|unique:books' . request()->route('book')
-                : 'required|max:255|unique:books',
             'issue_date' => 'required|date',
             'return_date' => 'required|date|after_or_equal:issue_date',
         ];
@@ -36,7 +33,7 @@ class IssueStatusRequest extends FormRequest
     public function messages()
     {
         return [
-            'book_id.required' => 'Category name is required',
+            'book_id.required' => 'Book name is required',
             'member_id.required' => 'Member name is required',
         ];
     }

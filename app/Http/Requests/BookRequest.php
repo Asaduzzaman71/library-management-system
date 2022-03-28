@@ -24,7 +24,7 @@ class BookRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required |max:255',
+            'book_name' => 'required |max:255',
             'category_id' => 'required',
             'ISBN' => request()->route('book')
                 ? 'required|max:255|unique:books' . request()->route('book')

@@ -21,6 +21,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Interfaces\BookInterface',
             'App\Repositories\BookRepository',
         );
+        $this->app->bind(
+            'App\Interfaces\MemberInterface',
+            'App\Repositories\MemberRepository',
+        );
     }
 
     /**
