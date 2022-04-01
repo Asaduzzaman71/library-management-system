@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Member extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+    public function issues()
+    {
+        return $this->hasMany(IssueStatus::class);
+    }
 }

@@ -6,7 +6,6 @@ use App\Http\Requests\BookRequest;
 use App\Interfaces\BookInterface;
 use App\Traits\ResponseAPI;
 use App\Models\Book;
-use App\Models\BookImage;
 use \Illuminate\Support\Facades\DB;
 use App\Traits\FileUpload;
 use Illuminate\Support\Facades\Storage;
@@ -57,14 +56,15 @@ class BookRepository implements BookInterface
 
     public function requestBook(BookRequest $request, $id = null)
     {
-        DB::beginTransaction();
-        try {
 
+        // DB::beginTransaction();
+        // try {
+            // dd($request->all());
             $book = $id ? Book::find($id) : new Book;
             // Check the Book
             if($id && !$book) return $this->error("No Book with ID $id", 404);
             $book->category_id = (int)$request->category_id;
-            $book->ISBN = $request->ISBN;
+            $book->isbn = $request->isbn;
             $book->book_name = $request->book_name;
             $book->author_name = $request->author_name;
             $book->edition = $request->edition;
@@ -72,8 +72,8 @@ class BookRepository implements BookInterface
             $book->rack_no = $request->rack_no;
             $book->no_of_copies = $request->no_of_copies;
             $book->status = $request->status;
-            $book->created_by = auth('api')->id();
-            $book->updated_by = $id  ? auth('api')->id() : NULL;
+            $book->created_by = auth()->id();
+            $book->updated_by = $id  ? auth()->id() : NULL;
             if($request->hasFile('image')){
                 $path = $this->FileUpload($request->image,'book');
                 $book->image =  $path;
@@ -81,15 +81,15 @@ class BookRepository implements BookInterface
             // Save the Book
             $book->save();
             $book = Book::where('id',$book->id)->first();
-            DB::commit();
+           // DB::commit();
             return $this->success(
                 $id ? "Book updated"
                     : "Book created",
                 $book, $id ? 200 : 201);
-        } catch(\Exception $e) {
-            DB::rollBack();
-            return $this->error($e->getMessage(), $e->getCode());
-        }
+        // } catch(\Exception $e) {
+        //     DB::rollBack();
+        //     return $this->error($e->getMessage(), $e->getCode());
+        // }
     }
 
     public function deleteBook($id)

@@ -20,5 +20,9 @@ class Category extends Model
             ->saveSlugsTo('slug');
 
     }
+    public function books()
+    {
+        return $this->hasMany(Book::class);
+    }
 
 }

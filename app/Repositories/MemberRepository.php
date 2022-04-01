@@ -8,7 +8,6 @@ use App\Traits\ResponseAPI;
 use App\Models\Member;
 use \Illuminate\Support\Facades\DB;
 use App\Traits\FileUpload;
-use Illuminate\Support\Facades\Storage;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class MemberRepository implements MemberInterface
@@ -17,8 +16,6 @@ class MemberRepository implements MemberInterface
     use ResponseAPI;
     // Use FileUpload Trait in this repository
     use FileUpload;
-
-
     public function getAllMembers()
     {
         try {
@@ -41,21 +38,15 @@ class MemberRepository implements MemberInterface
         }
     }
 
-
-
     public function requestMember(MemberRequest $request, $id = null)
     {
         DB::beginTransaction();
         try {
-
             $member = $id ? Member::find($id) : new Member;
             // Check the Book
             if($id && !$member) return $this->error("No Member with ID $id", 404);
-
-
             // Generate unique id for membership
             $membership_uid = IdGenerator::generate(['table' => 'members', 'length' => 10, 'prefix' =>date('ym')]);
-
             $member->membership_uid =$id  ? $member->membership_uid : $membership_uid  ;
             $member->name = $request->name;
             $member->email = $request->email;
@@ -63,9 +54,8 @@ class MemberRepository implements MemberInterface
             $member->address = $request->address;
             $member->issue_date = $request->issue_date;
             $member->expiary_date = $request->expiary_date;
-            $member->created_by = auth('api')->id();
-            $member->updated_by = $id  ? auth('api')->id() : NULL;
-
+            $member->created_by = auth()->id();
+            $member->updated_by = $id  ? auth()->id() : NULL;
             // Save the Member
             $member->save();
             $member = Member::where('id',$member->id)->first();
@@ -78,7 +68,6 @@ class MemberRepository implements MemberInterface
             DB::rollBack();
             return $this->error($e->getMessage(), $e->getCode());
         }
-
     }
 
     public function deleteMember($id)
@@ -88,7 +77,6 @@ class MemberRepository implements MemberInterface
             $member = Member::find($id);
             // Check the member
             if(!$member) return $this->error("No member with ID $id", 404);
-
             // Delete the member
             $member->delete();
             DB::commit();

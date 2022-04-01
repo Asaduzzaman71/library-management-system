@@ -25,12 +25,6 @@ class MemberRequest extends FormRequest
     {
         return [
             'name' => 'required|string|between:2,100',
-            'email' => request()->route('member')
-                ? 'required|max:255|unique:members' . request()->route('member')
-                : 'required|max:255|unique:members',
-            'phone' => request()->route('member')
-                ? 'required|max:255|unique:members' . request()->route('member')
-                : 'required|max:255|unique:members',
             'address' => 'required|max:510',
             'issue_date' => 'required|date',
             'expiary_date' => 'required|date|after_or_equal:issue_date',

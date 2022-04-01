@@ -20,7 +20,7 @@ use App\Http\Controllers\IssueStatusController;
 Route::post('auth/login', [AuthController::class, 'login']);
 Route::post('auth/register', [AuthController::class, 'register']);
 Route::group([
-    'middleware' => 'api',
+    'middleware' => 'jwt.verify',
     'prefix' => 'auth'
 
 ], function ($router) {
@@ -30,22 +30,29 @@ Route::group([
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
 });
 
-Route::get('/categories', [UserCategoryController::class, 'index']);
-Route::get('/posts', [UserPostController::class, 'index']);
-Route::get('/posts-by-category/{category}', [UserPostController::class, 'getPostByCategory']);
 
-
-
-Route::group( ['middleware' => 'api'], function()
+Route::group( ['middleware' => 'jwt.verify'], function()
 {
     Route::get('/categories', [CategoryController::class, 'index']);
     Route::get('/categories/{id}', [CategoryController::class, 'show']);
     Route::post('/categories', [CategoryController::class, 'store']);
     Route::put('/categories/{id}', [CategoryController::class, 'update']);
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+
+    Route::get('/books', [BookController::class, 'index']);
     Route::post('/books', [BookController::class, 'store']);
+    Route::put('/books/{book}', [BookController::class, 'update']);
+    Route::delete('/books/{book}', [BookController::class, 'destroy']);
+
+    Route::get('/members', [MemberController::class, 'index']);
     Route::post('/members', [MemberController::class, 'store']);
+    Route::put('/members/{member}', [MemberController::class, 'update']);
+    Route::delete('/members/{member}', [MemberController::class, 'destroy']);
+
+    Route::get('/issues', [IssueStatusController::class, 'index']);
     Route::post('/issues', [IssueStatusController::class, 'store']);
+    Route::put('/issues/{issue}', [IssueStatusController::class, 'update']);
+    Route::delete('/issues/{issue}', [IssueStatusController::class, 'destroy']);
     Route::get('/update-return-status/{issue}', [IssueStatusController::class, 'setReturnDate']);
 
 

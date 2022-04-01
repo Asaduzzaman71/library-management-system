@@ -13,7 +13,6 @@ class CategoryRepository implements CategoryInterface
 {
     // Use ResponseAPI Trait in this repository
     use ResponseAPI;
-
     public function getAllCategories()
     {
         try {
@@ -44,16 +43,14 @@ class CategoryRepository implements CategoryInterface
             // Then update the Category
             // Else create the new one.
             $category = $id ? Category::find($id) : new Category;
-
             // Check the category
             if($id && !$category) return $this->error("No category with ID $id", 404);
             $category->name = $request->name;
             $category->slug = Str::slug($request->name);
-            $category->created_by = auth('api')->id();
-            $category->updated_by = $id  ? auth('api')->id() : NULL;
+            $category->created_by = auth()->id();
+            $category->updated_by = $id  ? auth()->id() : NULL;
             // Save the category
             $category->save();
-
             DB::commit();
             return $this->success(
                 $id ? "Category updated"
@@ -70,13 +67,10 @@ class CategoryRepository implements CategoryInterface
         DB::beginTransaction();
         try {
             $category = Category::find($id);
-
-            // Check the user
+            // Check the category
             if(!$category) return $this->error("No category with ID $id", 404);
-
-            // Delete the user
+            // Delete the category
             $category->delete();
-
             DB::commit();
             return $this->success("Category deleted", $category);
         } catch(\Exception $e) {
