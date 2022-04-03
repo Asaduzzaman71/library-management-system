@@ -19,6 +19,7 @@ class CreateIssueStatusesTable extends Migration
             $table->unsignedBigInteger('book_id');
             $table->date('issue_date');
             $table->date('due_date');
+            $table->string('return_status')->default('Pending');
             $table->date('return_date')->nullable();
             $table->unsignedInteger('created_by');
             $table->unsignedInteger('updated_by')->nullable();

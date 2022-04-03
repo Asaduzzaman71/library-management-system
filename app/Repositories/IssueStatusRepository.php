@@ -62,6 +62,9 @@ class IssueStatusRepository implements IssueStatusInterface
                 $issueStatus->book_id = $request->book_id;
                 $issueStatus->issue_date = date('Y-m-d', strtotime($request->issue_date));
                 $issueStatus->due_date = date('Y-m-d', strtotime($request->due_date));
+                $issueStatus->return_status = 'Pending';
+                $issueStatus->return_date = null;
+                $issueStatus->updated_by = $id  ? auth()->id() : NULL;
                 $issueStatus->created_by = auth()->id();
                 $issueStatus->updated_by = $id  ? auth()->id() : NULL;
                 $issueStatus->save();
@@ -82,6 +85,7 @@ class IssueStatusRepository implements IssueStatusInterface
     public function updateReturnStatus($id) {
         $issueStatus = IssueStatus::find($id);
         if(!$issueStatus) return $this->error("No Issue Status with ID $id", 404);
+        $issueStatus->return_status =$issueStatus->return_status =='Pending' ? 'Returned' : 'Pending' ;
         $issueStatus->return_date =$issueStatus->return_date ?  NULL : Carbon::today()->format('Y-m-d') ;
         $issueStatus->save();
         $issueStatus = IssueStatus::where('id',$issueStatus->id)->first();
